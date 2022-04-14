@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using ProductManagementSystem.Logic;
 
 namespace ProductManagementSystem.DataAccessLayer
 {

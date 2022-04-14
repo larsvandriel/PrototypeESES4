@@ -4,9 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace pms_logic
+namespace ProductManagementSystem.Logic
 {
-    internal interface IProductManager
+    public interface IProductManager
     {
+        Product CreateProduct(Product product);
+        void UpdateProduct(Product product);
+        void DeleteProduct(Product product);
+        Product GetProductById(Guid id);
+        List<Product> GetAll();
+        void UpdateStock(Guid productId, int newStockAmount);
     }
 }

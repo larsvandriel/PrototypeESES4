@@ -9,7 +9,14 @@ namespace ProductManagementSystem.KafkaAccessLayer
 {
     public class KafkaProducer
     {
-        public void SendMessage(string topic, string message)
+        public string Topic { get; set; }
+
+        public KafkaProducer(string topic)
+        {
+            Topic = topic;
+        }
+
+        public void SendMessage(string message)
         {
             var config = new ProducerConfig
             {
@@ -22,7 +29,7 @@ namespace ProductManagementSystem.KafkaAccessLayer
              : $"Delivery Error: {r.Error.Reason}");
 
             using var p = new ProducerBuilder<Null, string>(config).Build();
-            p.Produce(topic, new Message<Null, string> { Value = message }, handler);
+            p.Produce(Topic, new Message<Null, string> { Value = message }, handler);
 
             p.Flush(TimeSpan.FromSeconds(10));
         }

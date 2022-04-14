@@ -4,9 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace pms_logic
+namespace ProductManagementSystem.Logic
 {
-    internal interface Interface1
+    public interface IProductEventSender
     {
+        void SendProductCreatedEvent(Product product);
+        void SendProductDeletedEvent(Product product);
+        void SendProductUpdatedEvent(Product product);
     }
 }

@@ -1,7 +1,10 @@
-﻿namespace pms_logic
+﻿namespace ProductManagementSystem.Logic
 {
-    public class Class1
+    public class Product
     {
+        public Guid Id { get; set; }
+        public string Name { get; set; }
+        public int AmountInStorage { get; set; }
 
     }
 }
