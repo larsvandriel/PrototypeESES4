@@ -5,13 +5,23 @@ VisualStudioVersion = 17.0.32126.317
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ProductManagementSystem", "ProductManagementSystem", "{40E1AD33-E1D0-457C-9152-D8D72574E817}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pms_logic", "ProductManagementSystem\pms_logic\pms_logic.csproj", "{481B6CD3-2F18-4F31-B244-CC0B913359D4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "pms_logic", "ProductManagementSystem\pms_logic\pms_logic.csproj", "{481B6CD3-2F18-4F31-B244-CC0B913359D4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pms_dal", "ProductManagementSystem\pms_dal\pms_dal.csproj", "{6104E74F-585E-456E-8473-F986A37C43F6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "pms_dal", "ProductManagementSystem\pms_dal\pms_dal.csproj", "{6104E74F-585E-456E-8473-F986A37C43F6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pms_kafka_access_layer", "ProductManagementSystem\pms_kafka_access_layer\pms_kafka_access_layer.csproj", "{1E97BC0C-8486-4185-B423-6BDA0E69F294}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "pms_kafka_access_layer", "ProductManagementSystem\pms_kafka_access_layer\pms_kafka_access_layer.csproj", "{1E97BC0C-8486-4185-B423-6BDA0E69F294}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pms_api", "ProductManagementSystem\pms_api\pms_api.csproj", "{53FDDA95-5D6E-4FD0-989E-1660EE6482CE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "pms_api", "ProductManagementSystem\pms_api\pms_api.csproj", "{53FDDA95-5D6E-4FD0-989E-1660EE6482CE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "InventoryManagementSystem", "InventoryManagementSystem", "{A1CA0835-56DC-41FA-A98B-EC335D44DF1C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ims_api", "InventoryManagementSystem\ims_api\ims_api.csproj", "{7F0D65B2-5307-4815-9312-E02EFE4CE56A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ims_logic", "InventoryManagementSystem\ims_logic\ims_logic.csproj", "{75F33A70-64C8-42E2-AF25-A04B5B6763DE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ims_dal", "InventoryManagementSystem\ims_dal\ims_dal.csproj", "{67571FD3-95D2-4F99-9B04-0CE92C883D12}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ims_kafka_access_layer", "InventoryManagementSystem\ims_kafka_access_layer\ims_kafka_access_layer.csproj", "{DEF534E8-8E07-4BA4-A6C6-AE6DAA7B5ADD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,6 +45,22 @@ Global
 		{53FDDA95-5D6E-4FD0-989E-1660EE6482CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{53FDDA95-5D6E-4FD0-989E-1660EE6482CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{53FDDA95-5D6E-4FD0-989E-1660EE6482CE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7F0D65B2-5307-4815-9312-E02EFE4CE56A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7F0D65B2-5307-4815-9312-E02EFE4CE56A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7F0D65B2-5307-4815-9312-E02EFE4CE56A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7F0D65B2-5307-4815-9312-E02EFE4CE56A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{75F33A70-64C8-42E2-AF25-A04B5B6763DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{75F33A70-64C8-42E2-AF25-A04B5B6763DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{75F33A70-64C8-42E2-AF25-A04B5B6763DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{75F33A70-64C8-42E2-AF25-A04B5B6763DE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{67571FD3-95D2-4F99-9B04-0CE92C883D12}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{67571FD3-95D2-4F99-9B04-0CE92C883D12}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{67571FD3-95D2-4F99-9B04-0CE92C883D12}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{67571FD3-95D2-4F99-9B04-0CE92C883D12}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DEF534E8-8E07-4BA4-A6C6-AE6DAA7B5ADD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DEF534E8-8E07-4BA4-A6C6-AE6DAA7B5ADD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DEF534E8-8E07-4BA4-A6C6-AE6DAA7B5ADD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DEF534E8-8E07-4BA4-A6C6-AE6DAA7B5ADD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -44,6 +70,10 @@ Global
 		{6104E74F-585E-456E-8473-F986A37C43F6} = {40E1AD33-E1D0-457C-9152-D8D72574E817}
 		{1E97BC0C-8486-4185-B423-6BDA0E69F294} = {40E1AD33-E1D0-457C-9152-D8D72574E817}
 		{53FDDA95-5D6E-4FD0-989E-1660EE6482CE} = {40E1AD33-E1D0-457C-9152-D8D72574E817}
+		{7F0D65B2-5307-4815-9312-E02EFE4CE56A} = {A1CA0835-56DC-41FA-A98B-EC335D44DF1C}
+		{75F33A70-64C8-42E2-AF25-A04B5B6763DE} = {A1CA0835-56DC-41FA-A98B-EC335D44DF1C}
+		{67571FD3-95D2-4F99-9B04-0CE92C883D12} = {A1CA0835-56DC-41FA-A98B-EC335D44DF1C}
+		{DEF534E8-8E07-4BA4-A6C6-AE6DAA7B5ADD} = {A1CA0835-56DC-41FA-A98B-EC335D44DF1C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {AC418754-C40A-4CB2-AE36-EAC052F99F71}
