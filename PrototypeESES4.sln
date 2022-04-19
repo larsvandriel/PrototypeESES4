@@ -15,13 +15,23 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "pms_api", "ProductManagemen
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "InventoryManagementSystem", "InventoryManagementSystem", "{A1CA0835-56DC-41FA-A98B-EC335D44DF1C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ims_api", "InventoryManagementSystem\ims_api\ims_api.csproj", "{7F0D65B2-5307-4815-9312-E02EFE4CE56A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ims_api", "InventoryManagementSystem\ims_api\ims_api.csproj", "{7F0D65B2-5307-4815-9312-E02EFE4CE56A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ims_logic", "InventoryManagementSystem\ims_logic\ims_logic.csproj", "{75F33A70-64C8-42E2-AF25-A04B5B6763DE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ims_logic", "InventoryManagementSystem\ims_logic\ims_logic.csproj", "{75F33A70-64C8-42E2-AF25-A04B5B6763DE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ims_dal", "InventoryManagementSystem\ims_dal\ims_dal.csproj", "{67571FD3-95D2-4F99-9B04-0CE92C883D12}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ims_dal", "InventoryManagementSystem\ims_dal\ims_dal.csproj", "{67571FD3-95D2-4F99-9B04-0CE92C883D12}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ims_kafka_access_layer", "InventoryManagementSystem\ims_kafka_access_layer\ims_kafka_access_layer.csproj", "{DEF534E8-8E07-4BA4-A6C6-AE6DAA7B5ADD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ims_kafka_access_layer", "InventoryManagementSystem\ims_kafka_access_layer\ims_kafka_access_layer.csproj", "{DEF534E8-8E07-4BA4-A6C6-AE6DAA7B5ADD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "OrderManagementSystem", "OrderManagementSystem", "{8E97D140-FB9B-44B5-8D96-978361C5BA2A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "oms_logic", "OrderManagementSystem\oms_logic\oms_logic.csproj", "{870D2432-205E-4F54-A20E-F58A702E9A94}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "oms_dal", "OrderManagementSystem\oms_dal\oms_dal.csproj", "{555A2927-ADBA-4068-9913-E6EF7912C7A9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "oms_kafka_access_layer", "OrderManagementSystem\oms_kafka_access_layer\oms_kafka_access_layer.csproj", "{7C03FF18-ED53-4508-BD6F-057446F5E6E1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "oms_api", "OrderManagementSystem\oms_api\oms_api.csproj", "{3E067D66-1375-452A-A24F-1AB523508387}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -61,6 +71,22 @@ Global
 		{DEF534E8-8E07-4BA4-A6C6-AE6DAA7B5ADD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DEF534E8-8E07-4BA4-A6C6-AE6DAA7B5ADD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DEF534E8-8E07-4BA4-A6C6-AE6DAA7B5ADD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{870D2432-205E-4F54-A20E-F58A702E9A94}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{870D2432-205E-4F54-A20E-F58A702E9A94}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{870D2432-205E-4F54-A20E-F58A702E9A94}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{870D2432-205E-4F54-A20E-F58A702E9A94}.Release|Any CPU.Build.0 = Release|Any CPU
+		{555A2927-ADBA-4068-9913-E6EF7912C7A9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{555A2927-ADBA-4068-9913-E6EF7912C7A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{555A2927-ADBA-4068-9913-E6EF7912C7A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{555A2927-ADBA-4068-9913-E6EF7912C7A9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7C03FF18-ED53-4508-BD6F-057446F5E6E1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7C03FF18-ED53-4508-BD6F-057446F5E6E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7C03FF18-ED53-4508-BD6F-057446F5E6E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7C03FF18-ED53-4508-BD6F-057446F5E6E1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3E067D66-1375-452A-A24F-1AB523508387}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3E067D66-1375-452A-A24F-1AB523508387}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3E067D66-1375-452A-A24F-1AB523508387}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3E067D66-1375-452A-A24F-1AB523508387}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -74,6 +100,10 @@ Global
 		{75F33A70-64C8-42E2-AF25-A04B5B6763DE} = {A1CA0835-56DC-41FA-A98B-EC335D44DF1C}
 		{67571FD3-95D2-4F99-9B04-0CE92C883D12} = {A1CA0835-56DC-41FA-A98B-EC335D44DF1C}
 		{DEF534E8-8E07-4BA4-A6C6-AE6DAA7B5ADD} = {A1CA0835-56DC-41FA-A98B-EC335D44DF1C}
+		{870D2432-205E-4F54-A20E-F58A702E9A94} = {8E97D140-FB9B-44B5-8D96-978361C5BA2A}
+		{555A2927-ADBA-4068-9913-E6EF7912C7A9} = {8E97D140-FB9B-44B5-8D96-978361C5BA2A}
+		{7C03FF18-ED53-4508-BD6F-057446F5E6E1} = {8E97D140-FB9B-44B5-8D96-978361C5BA2A}
+		{3E067D66-1375-452A-A24F-1AB523508387} = {8E97D140-FB9B-44B5-8D96-978361C5BA2A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {AC418754-C40A-4CB2-AE36-EAC052F99F71}
