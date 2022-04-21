@@ -28,7 +28,7 @@ services:
       - "1433"
       - "1402:1433"
     networks:
-      - exameses4Prototypeple
+      - eses4Prototype
     restart: on-failure
 
   db_order:
@@ -110,41 +110,57 @@ services:
     networks:
       - eses4Prototype
   
-  backend_address:
+  backend_product:
     restart: on-failure
     depends_on:
-      - db_address
+      - db_product
       - kafka
       # - kafka-setup
-    container_name: backendAPIAddress
+    container_name: ProductManagementSystem
     build:
-      context: backend\ExampleAPI
-      dockerfile: ExampleAPI\Dockerfile
+      context: ProductManagementSystem
+      dockerfile: pms_api\Dockerfile
     ports:
-      - "7176:80"
+      - "7001:80"
     networks:
       - eses4Prototype
 
-  backend_person:
+  backend_inventory:
     restart: on-failure
     depends_on:
-      - db_person
+      - db_inventory
       - kafka
       # - kafka-setup
-    container_name: backendAPIPerson
+    container_name: InventoryManagmentSystem
     build:
-      context: backend\ExampleAPI
-      dockerfile: ExampleAPI2\Dockerfile
+      context: InventoryManagmentSystem
+      dockerfile: ims_api\Dockerfile
     ports:
-      - "7194:80"
+      - "7002:80"
+    networks:
+      - eses4Prototype
+
+  backend_order:
+    restart: on-failure
+    depends_on:
+      - db_order
+      - kafka
+      # - kafka-setup
+    container_name: OrderManagmentSystem
+    build:
+      context: OrderManagmentSystem
+      dockerfile: oms_api\Dockerfile
+    ports:
+      - "7003:80"
     networks:
       - eses4Prototype
 
   frontend:
     restart: on-failure
     depends_on:
-      - backend_address
-      - backend_person
+      - backend_product
+      - backend_inventory
+      - backend_order
     container_name: frontend
     build:
       context: frontend
@@ -154,7 +170,7 @@ services:
       - eses4Prototype
 
 volumes:
-  example_volume:
+  eses4PrototypeVolume:
 networks:
-  example:
+  eses4Prototype:
     external: true
