@@ -1,0 +1,160 @@
+version: "3.7"
+
+services:
+  db_product:
+    container_name: mssqlDbProduct
+    image: "mcr.microsoft.com/mssql/server:2019-latest"
+    volumes:
+      - eses4PrototypeVolume:/var/opt/mssql/product
+    environment:
+      SA_PASSWORD: "pw123_Example"
+      ACCEPT_EULA: "Y"
+    ports:
+      - "1433"
+      - "1401:1433"
+    networks:
+      - eses4Prototype
+    restart: on-failure
+
+  db_inventory:
+    container_name: mssqlDbInventory
+    image: "mcr.microsoft.com/mssql/server:2019-latest"
+    volumes:
+      - eses4PrototypeVolume:/var/opt/mssql/inventory
+    environment:
+      SA_PASSWORD: "pw123_Example"
+      ACCEPT_EULA: "Y"
+    ports:
+      - "1433"
+      - "1402:1433"
+    networks:
+      - exameses4Prototypeple
+    restart: on-failure
+
+  db_order:
+    container_name: mssqlDbOrder
+    image: "mcr.microsoft.com/mssql/server:2019-latest"
+    volumes:
+      - eses4PrototypeVolume:/var/opt/mssql/order
+    environment:
+      SA_PASSWORD: "pw123_Example"
+      ACCEPT_EULA: "Y"
+    ports:
+      - "1433"
+      - "1403:1433"
+    networks:
+      - eses4Prototype
+    restart: on-failure
+
+  zookeeper:
+    container_name: zookeeper
+    image: confluentinc/cp-zookeeper:latest
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    ports:
+      - 2181:2181
+    networks:
+      - eses4Prototype
+    restart: on-failure
+  
+  kafka:
+    container_name: kafka
+    image: confluentinc/cp-kafka:latest
+    depends_on:
+      - zookeeper
+    ports:
+      - 9092:9092
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: 'zookeeper:2181'
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_LISTENERS: PLAINTEXT://kafka:9092, PLAINTEXT_HOST://localhost:29092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,PLAINTEXT_HOST://localhost:29092
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+    networks:
+      - eses4Prototype
+    healthcheck:
+      test: ["CMD", "java", "-jar", "/Ping.jar", "localhost", "9092"]
+      interval: 30s
+      timeout: 10s
+      retries: 4
+    restart: on-failure
+
+  kafka-setup:
+    image: confluentinc/cp-kafka:latest
+    hostname: kafka-setup
+    container_name: kafka-setup
+    depends_on:
+      - kafka
+    volumes:
+      - $PWD/connectors:/tmp/connectors
+      - $PWD/dashboard:/tmp/dashboard
+    command: "bash -c 'echo Waiting for Kafka to be ready... && \
+                       cub kafka-ready -b kafka:9092 1 20 && \
+                       kafka-topics --create --if-not-exists --zookeeper zookeeper:2181 --partitions 1 --replication-factor 1 --topic CreateProductEvent && \
+                       kafka-topics --create --if-not-exists --zookeeper zookeeper:2181 --partitions 1 --replication-factor 1 --topic DeleteProductEvent && \
+                       kafka-topics --create --if-not-exists --zookeeper zookeeper:2181 --partitions 1 --replication-factor 1 --topic UpdateProductEvent && \
+                       kafka-topics --create --if-not-exists --zookeeper zookeeper:2181 --partitions 1 --replication-factor 1 --topic DecreaseStockEvent && \
+                       kafka-topics --create --if-not-exists --zookeeper zookeeper:2181 --partitions 1 --replication-factor 1 --topic UpdateStockEvent && \
+                       kafka-topics --create --if-not-exists --zookeeper zookeeper:2181 --partitions 1 --replication-factor 1 --topic OrderApprovedEvent && \
+                       kafka-topics --create --if-not-exists --zookeeper zookeeper:2181 --partitions 1 --replication-factor 1 --topic OrderDeniedEvent'"
+    environment:
+      # The following settings are listed here only to satisfy the image's requirements.
+      # We override the image's `command` anyways, hence this container will not start a broker.
+      KAFKA_BROKER_ID: ignored
+      KAFKA_ZOOKEEPER_CONNECT: ignored
+    restart: on-failure
+    networks:
+      - eses4Prototype
+  
+  backend_address:
+    restart: on-failure
+    depends_on:
+      - db_address
+      - kafka
+      # - kafka-setup
+    container_name: backendAPIAddress
+    build:
+      context: backend\ExampleAPI
+      dockerfile: ExampleAPI\Dockerfile
+    ports:
+      - "7176:80"
+    networks:
+      - eses4Prototype
+
+  backend_person:
+    restart: on-failure
+    depends_on:
+      - db_person
+      - kafka
+      # - kafka-setup
+    container_name: backendAPIPerson
+    build:
+      context: backend\ExampleAPI
+      dockerfile: ExampleAPI2\Dockerfile
+    ports:
+      - "7194:80"
+    networks:
+      - eses4Prototype
+
+  frontend:
+    restart: on-failure
+    depends_on:
+      - backend_address
+      - backend_person
+    container_name: frontend
+    build:
+      context: frontend
+    ports:
+      - "4200:4200"
+    networks:
+      - eses4Prototype
+
+volumes:
+  example_volume:
+networks:
+  example:
+    external: true
