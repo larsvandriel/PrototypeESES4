@@ -1,4 +1,4 @@
-﻿using ProductManagementSystem.Logic;
+﻿ using ProductManagementSystem.Logic;
 using System.Text.Json;
 
 namespace ProductManagementSystem.KafkaAccessLayer
