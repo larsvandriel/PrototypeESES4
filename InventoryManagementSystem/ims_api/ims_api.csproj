@@ -10,8 +10,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Confluent.Kafka" Version="1.8.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.4" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.14.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ims_dal\ims_dal.csproj" />
+    <ProjectReference Include="..\ims_kafka_access_layer\ims_kafka_access_layer.csproj" />
+    <ProjectReference Include="..\ims_logic\ims_logic.csproj" />
   </ItemGroup>
 
 </Project>

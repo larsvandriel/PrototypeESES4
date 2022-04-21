@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace InventoryManagementSystem.Logic
 {
-    public class InventoryManagerb : IInventoryManager
+    public class InventoryManager : IInventoryManager
     {
         public IInventoryRepository Repository { get; set; }
         public IInventoryEventSender EventSender { get; set; }
 
-        public InventoryManagerb(IInventoryRepository repository, IInventoryEventSender eventSender)
+        public InventoryManager(IInventoryRepository repository, IInventoryEventSender eventSender)
         {
             Repository = repository;
             EventSender = eventSender;
