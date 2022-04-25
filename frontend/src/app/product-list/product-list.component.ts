@@ -46,9 +46,11 @@ export class ProductListComponent implements OnInit {
   }
 
   orderProduct(product: Product): void {
-    this.orderService.createOrder(new Order(undefined, product, undefined)).subscribe(data =>
+    this.setRouterLinkDisabled(true);
+    this.orderService.createOrder(new Order(undefined, product.id, undefined)).subscribe(data =>
     {
       console.log(data.status);
+      window.location.reload();
     });
   }
 

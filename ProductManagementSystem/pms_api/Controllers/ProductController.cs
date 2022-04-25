@@ -11,7 +11,7 @@ namespace ProductManagementSystem.API.Controllers
     {
         public IProductManager ProductManager { get; set; }
 
-        public ProductController(ProductManager productManager)
+        public ProductController(IProductManager productManager)
         {
             ProductManager = productManager;
         }

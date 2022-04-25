@@ -11,12 +11,13 @@ const routes: Routes = [
   { path: 'product/create', component: ProductCreateComponent},
   { path: 'product/:id', component: ProductDetailComponent, pathMatch: 'full'},
   { path: 'product/:id/edit', component: ProductEditComponent, pathMatch: 'full'}
-]
+];
 
 @NgModule({
   declarations: [],
   imports: [
     RouterModule.forRoot(routes)
-  ]
+  ],
+  exports: [RouterModule]
 })
 export class AppRoutingModule { }

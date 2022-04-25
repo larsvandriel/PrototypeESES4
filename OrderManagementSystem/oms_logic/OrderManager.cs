@@ -27,7 +27,7 @@ namespace OrderManagementSystem.Logic
         public Order CreateOrder(Order order)
         {
             Order newOrder = Repository.CreateOrder(order);
-            EventSender.SendDecreaseStockEvent(order.Id, order.Product.Id, 1);
+            EventSender.SendDecreaseStockEvent(order.Id, order.ProductId, 1);
             while(newOrder.Status == OrderStatus.PENDING)
             {
                 newOrder = Repository.GetOrder(newOrder.Id);

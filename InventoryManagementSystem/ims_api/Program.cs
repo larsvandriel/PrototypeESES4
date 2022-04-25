@@ -9,6 +9,9 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
+builder.Services.AddSingleton<IHostedService, KafkaConsumerCreateProductEvent>();
+builder.Services.AddSingleton<IHostedService, KafkaConsumerUpdateProductEvent>();
+builder.Services.AddSingleton<IHostedService, KafkaConsumerDeleteProductEvent>();
 builder.Services.AddSingleton<IHostedService, KafkaConsumerDecreaseStockEvent>();
 builder.Services.AddSingleton<IInventoryManager, InventoryManager>();
 builder.Services.AddSingleton<IInventoryRepository, InventoryRepository>();

@@ -7,7 +7,7 @@ namespace InventoryManagementSystem.API.Kafka
 {
     public class KafkaConsumerDecreaseStockEvent: IHostedService
     {
-        private readonly string topic = "UpdateStockEvent";
+        private readonly string topic = "DecreaseStockEvent";
         private IInventoryManager InventoryManager { get; set; }
 
         public KafkaConsumerDecreaseStockEvent(IInventoryManager inventoryManager)

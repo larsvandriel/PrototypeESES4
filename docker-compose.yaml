@@ -47,7 +47,7 @@ services:
     restart: on-failure
 
   zookeeper:
-    container_name: zookeeper
+    container_name: zookeeper_eses4_prototype
     image: confluentinc/cp-zookeeper:latest
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
@@ -59,7 +59,7 @@ services:
     restart: on-failure
   
   kafka:
-    container_name: kafka
+    container_name: kafka_eses4_prototype
     image: confluentinc/cp-kafka:latest
     depends_on:
       - zookeeper
@@ -118,8 +118,8 @@ services:
       # - kafka-setup
     container_name: ProductManagementSystem
     build:
-      context: ProductManagementSystem
-      dockerfile: pms_api\Dockerfile
+      context: .
+      dockerfile: ProductManagementSystem\pms_api\Dockerfile
     ports:
       - "7001:80"
     networks:
@@ -131,10 +131,10 @@ services:
       - db_inventory
       - kafka
       # - kafka-setup
-    container_name: InventoryManagmentSystem
+    container_name: InventoryManagementSystem
     build:
-      context: InventoryManagmentSystem
-      dockerfile: ims_api\Dockerfile
+      context: .
+      dockerfile: InventoryManagementSystem\ims_api\Dockerfile
     ports:
       - "7002:80"
     networks:
@@ -146,10 +146,10 @@ services:
       - db_order
       - kafka
       # - kafka-setup
-    container_name: OrderManagmentSystem
+    container_name: OrderManagementSystem
     build:
-      context: OrderManagmentSystem
-      dockerfile: oms_api\Dockerfile
+      context: .
+      dockerfile: OrderManagementSystem\oms_api\Dockerfile
     ports:
       - "7003:80"
     networks:
@@ -161,7 +161,7 @@ services:
       - backend_product
       - backend_inventory
       - backend_order
-    container_name: frontend
+    container_name: frontend_eses4_prototype
     build:
       context: frontend
     ports:

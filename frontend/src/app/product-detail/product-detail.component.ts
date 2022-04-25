@@ -42,6 +42,8 @@ export class ProductDetailComponent implements OnInit {
   }
 
   orderProduct(): void {
-    this.orderService.createOrder(new Order(undefined, this.product, undefined));
+    this.orderService.createOrder(new Order(undefined, this.product.id, undefined)).subscribe(_ => {
+      window.location.reload();
+    });
   }
 }

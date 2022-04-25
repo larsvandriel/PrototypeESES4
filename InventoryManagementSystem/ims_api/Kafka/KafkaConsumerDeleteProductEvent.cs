@@ -1,17 +1,17 @@
 ﻿using Confluent.Kafka;
-using ProductManagementSystem.Logic;
+using InventoryManagementSystem.Logic;
 using System.Text.Json;
 
-namespace ProductManagementSystem.API.Kafka
+namespace InventoryManagementSystem.API.Kafka
 {
-    public class KafkaConsumerUpdateStockEvent : IHostedService
+    public class KafkaConsumerDeleteProductEvent: IHostedService
     {
-        private readonly string topic = "UpdateStockEvent";
-        private IProductManager ProductManager { get; set; }
+        private readonly string topic = "DeleteProductEvent";
+        private IInventoryManager InventoryManager { get; set; }
 
-        public KafkaConsumerUpdateStockEvent(IProductManager productManager)
+        public KafkaConsumerDeleteProductEvent(IInventoryManager inventoryManager)
         {
-            ProductManager = productManager;
+            InventoryManager = inventoryManager;
         }
 
         public Task StartAsync(CancellationToken cancellationToken)
@@ -35,7 +35,7 @@ namespace ProductManagementSystem.API.Kafka
                         Console.WriteLine($"Message: {consumer.Message.Value} received from {consumer.TopicPartitionOffset}");
                         Console.WriteLine();
                         Product product = (Product)JsonSerializer.Deserialize(consumer.Message.Value, typeof(Product));
-                        ProductManager.UpdateStock(product.Id, product.AmountInStorage);
+                        InventoryManager.RemoveProduct(product);
                     }
                 }
                 catch (Exception e)

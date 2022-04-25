@@ -14,7 +14,7 @@ namespace OrderManagementSystem.DataAccessLayer
         public void Configure(EntityTypeBuilder<Order> builder)
         {
             builder.HasKey(o => o.Id);
-            builder.HasOne(o => o.Product).WithMany();
+            builder.Property(o => o.ProductId).IsRequired();
             builder.Property(o => o.Status).IsRequired();
         }
     }

@@ -20,6 +20,7 @@ namespace ProductManagementSystem.KafkaAccessLayer
         {
             string message = JsonSerializer.Serialize(product);
             CreateProductProducer.SendMessage(message);
+            Console.WriteLine($"Send {message} to MessageBus ProductCreated");
         }
 
         public void SendProductDeletedEvent(Product product)
