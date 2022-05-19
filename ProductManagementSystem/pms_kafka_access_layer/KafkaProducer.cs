@@ -9,18 +9,21 @@ namespace ProductManagementSystem.KafkaAccessLayer
 {
     public class KafkaProducer
     {
+        private readonly string _kafkaBootstrapServers;
+        
         public string Topic { get; set; }
 
-        public KafkaProducer(string topic)
+        public KafkaProducer(string topic, string kafkaBootstrapServers)
         {
             Topic = topic;
+            _kafkaBootstrapServers = kafkaBootstrapServers;
         }
 
         public void SendMessage(string message)
         {
             var config = new ProducerConfig
             {
-                BootstrapServers = "kafka:9092"
+                BootstrapServers = _kafkaBootstrapServers
             };
 
             Action<DeliveryReport<Null, string>> handler = r =>

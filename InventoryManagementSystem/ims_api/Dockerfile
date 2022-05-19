@@ -18,5 +18,6 @@ RUN dotnet publish "ims_api.csproj" -c Release -o /app/publish
 
 FROM base AS final
 WORKDIR /app
+ENV Logging__Console__FormatterName=Simple
 COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "ims_api.dll"]

@@ -18,5 +18,6 @@ RUN dotnet publish "oms_api.csproj" -c Release -o /app/publish
 
 FROM base AS final
 WORKDIR /app
+ENV Logging__Console__FormatterName=Simple
 COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "oms_api.dll"]

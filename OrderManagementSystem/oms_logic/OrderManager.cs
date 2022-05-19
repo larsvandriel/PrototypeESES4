@@ -30,6 +30,7 @@ namespace OrderManagementSystem.Logic
             EventSender.SendDecreaseStockEvent(order.Id, order.ProductId, 1);
             while(newOrder.Status == OrderStatus.PENDING)
             {
+                Thread.Sleep(10000);
                 newOrder = Repository.GetOrder(newOrder.Id);
             }
             return newOrder;

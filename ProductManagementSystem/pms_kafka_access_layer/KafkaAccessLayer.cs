@@ -9,11 +9,11 @@ namespace ProductManagementSystem.KafkaAccessLayer
         public KafkaProducer DeleteProductProducer { get; set; }
         public KafkaProducer UpdateProductProducer { get; set; }
 
-        public KafkaAccessLayer()
+        public KafkaAccessLayer(string kafkaBootstrapServers)
         {
-            CreateProductProducer = new KafkaProducer("CreateProductEvent");
-            DeleteProductProducer = new KafkaProducer("DeleteProductEvent");
-            UpdateProductProducer = new KafkaProducer("UpdateProductEvent");
+            CreateProductProducer = new KafkaProducer("CreateProductEvent", kafkaBootstrapServers);
+            DeleteProductProducer = new KafkaProducer("DeleteProductEvent", kafkaBootstrapServers);
+            UpdateProductProducer = new KafkaProducer("UpdateProductEvent", kafkaBootstrapServers);
         }
 
         public void SendProductCreatedEvent(Product product)

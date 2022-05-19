@@ -9,14 +9,6 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddSingleton<IHostedService, KafkaConsumerCreateProductEvent>();
-builder.Services.AddSingleton<IHostedService, KafkaConsumerUpdateProductEvent>();
-builder.Services.AddSingleton<IHostedService, KafkaConsumerDeleteProductEvent>();
-builder.Services.AddSingleton<IHostedService, KafkaConsumerDecreaseStockEvent>();
-builder.Services.AddSingleton<IInventoryManager, InventoryManager>();
-builder.Services.AddSingleton<IInventoryRepository, InventoryRepository>();
-builder.Services.AddSingleton<IInventoryEventSender, KafkaAccessLayer>();
-
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("CorsPolicy",
@@ -30,7 +22,24 @@ builder.Services.Configure<IISOptions>(options =>
 
 ConfigurationManager config = builder.Configuration;
 var connectionString = config["mssqlconnection:connectionString"];
+var kafkaBootstrapServers = config["Kafka:bootstrapServers"];
+
+Console.WriteLine(connectionString);
+Console.WriteLine();
+Console.WriteLine(kafkaBootstrapServers);
+
+Console.WriteLine(connectionString);
 builder.Services.AddDbContext<RepositoryContext>(options => options.UseSqlServer(connectionString));
+
+builder.Services.AddScoped<IInventoryManager, InventoryManager>();
+builder.Services.AddScoped<IInventoryRepository, InventoryRepository>();
+builder.Services.AddScoped<IInventoryEventSender>(x => new KafkaAccessLayer(kafkaBootstrapServers));
+
+builder.Services.AddHostedService(x => new KafkaConsumer(x, kafkaBootstrapServers));
+//builder.Services.AddHostedService(x => new KafkaConsumerDeleteProductEvent(x, kafkaBootstrapServers));
+//builder.Services.AddHostedService(x => new KafkaConsumerUpdateProductEvent(x, kafkaBootstrapServers));
+//builder.Services.AddHostedService(x => new KafkaConsumerCreateProductEvent(x, kafkaBootstrapServers));
+//builder.Services.AddHostedService(x => new KafkaConsumerDecreaseStockEvent(x, kafkaBootstrapServers));
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

@@ -18,5 +18,6 @@ RUN dotnet publish "pms_api.csproj" -c Release -o /app/publish
 
 FROM base AS final
 WORKDIR /app
+ENV Logging__Console__FormatterName=Simple
 COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "pms_api.dll"]

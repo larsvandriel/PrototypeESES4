@@ -14,12 +14,15 @@ namespace ProductManagementSystem.API.Controllers
         public ProductController(IProductManager productManager)
         {
             ProductManager = productManager;
+            Console.WriteLine("Progress ControllerCreated");
+
         }
 
         // GET: api/<ProductController>
         [HttpGet]
         public List<Product> Get()
         {
+            Console.WriteLine("Get Product Called!");
             return ProductManager.GetAll();
         }
 

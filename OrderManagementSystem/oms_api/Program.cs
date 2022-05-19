@@ -9,11 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddSingleton<IHostedService, KafkaConsumerAcceptOrder>();
-builder.Services.AddSingleton<IHostedService, KafkaConsumerDeclineOrder>();
-builder.Services.AddSingleton<IOrderManager, OrderManager>();
-builder.Services.AddSingleton<IOrderRepository, OrderRepository>();
-builder.Services.AddSingleton<IOrderEventSender, KafkaAccessLayer>();
+
 
 builder.Services.AddCors(options =>
 {
@@ -28,7 +24,18 @@ builder.Services.Configure<IISOptions>(options =>
 
 ConfigurationManager config = builder.Configuration;
 var connectionString = config["mssqlconnection:connectionString"];
+var bootstrapServers = config["Kafka:bootstrapServers"];
+
 builder.Services.AddDbContext<RepositoryContext>(options => options.UseSqlServer(connectionString));
+
+builder.Services.AddHostedService(x => new KafkaConsumer(x, bootstrapServers));
+//builder.Services.AddHostedService(x => new KafkaConsumerAcceptOrder(x, bootstrapServers));
+//builder.Services.AddHostedService(x => new KafkaConsumerDeclineOrder(x, bootstrapServers));
+
+builder.Services.AddScoped<IOrderManager, OrderManager>();
+builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+builder.Services.AddScoped<IOrderEventSender>(x => new KafkaAccessLayer(bootstrapServers));
+
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

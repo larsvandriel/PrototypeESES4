@@ -9,11 +9,11 @@ namespace InventoryManagementSystem.KafkaAccessLayer
         public KafkaProducer OrderDeniedProducer { get; set; }
         public KafkaProducer UpdateStockProducer { get; set; }
 
-        public KafkaAccessLayer()
+        public KafkaAccessLayer(string kafkaBootstrapServers)
         {
-            OrderApprovedProducer = new KafkaProducer("OrderApprovedEvent");
-            OrderDeniedProducer = new KafkaProducer("OrderDeniedEvent");
-            UpdateStockProducer = new KafkaProducer("UpdateStockEvent");
+            OrderApprovedProducer = new KafkaProducer("OrderApprovedEvent", kafkaBootstrapServers);
+            OrderDeniedProducer = new KafkaProducer("OrderDeniedEvent", kafkaBootstrapServers);
+            UpdateStockProducer = new KafkaProducer("UpdateStockEvent", kafkaBootstrapServers);
         }
 
         public void SendOrderApprovedEvent(Guid orderId)

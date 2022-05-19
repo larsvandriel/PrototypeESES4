@@ -4,54 +4,63 @@ using System.Text.Json;
 
 namespace OrderManagementSystem.API.Kafka
 {
-    public class KafkaConsumerAcceptOrder: IHostedService
+    public class KafkaConsumerAcceptOrder: BackgroundService
     {
         private readonly string topic = "AcceptOrderEvent";
+        private readonly IServiceProvider _serviceProvider;
+        private readonly string _kafkaBootstrapServers;
+
         private IOrderManager OrderManager { get; set; }
 
-        public KafkaConsumerAcceptOrder(IOrderManager orderManager)
+        public KafkaConsumerAcceptOrder(IServiceProvider serviceProvider, string kafkaBootstrapServers)
         {
-            OrderManager = orderManager;
+            _serviceProvider = serviceProvider;
+            _kafkaBootstrapServers = kafkaBootstrapServers;
         }
 
-        public Task StartAsync(CancellationToken cancellationToken)
+        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            var conf = new ConsumerConfig
+            await DoWorkAsync(stoppingToken);
+        }
+
+        private async Task DoWorkAsync(CancellationToken stoppingToken)
+        {
+            using (IServiceScope scope = _serviceProvider.CreateScope())
             {
-                GroupId = "st_consumer_group",
-                BootstrapServers = "kafka:9092",
-                AutoOffsetReset = AutoOffsetReset.Earliest
-            };
-            using (var builder = new ConsumerBuilder<Ignore, string>(conf).Build())
-            {
-                builder.Subscribe(topic);
-                var cancelToken = new CancellationTokenSource();
-                try
+                OrderManager = scope.ServiceProvider.GetRequiredService<IOrderManager>();
+
+                var conf = new ConsumerConfig
                 {
-                    while (true)
+                    GroupId = "st_consumer_group",
+                    BootstrapServers = _kafkaBootstrapServers,
+                    AutoOffsetReset = AutoOffsetReset.Earliest
+                };
+                using (var builder = new ConsumerBuilder<Ignore, string>(conf).Build())
+                {
+                    builder.Subscribe(topic);
+                    var cancelToken = new CancellationTokenSource();
+                    try
                     {
-                        var consumer = builder.Consume(cancelToken.Token);
-                        Console.WriteLine();
-                        Console.WriteLine($"Message: {consumer.Message.Value} received from {consumer.TopicPartitionOffset}");
-                        Console.WriteLine();
-                        Guid orderId = (Guid)JsonSerializer.Deserialize(consumer.Message.Value, typeof(Guid));
-                        OrderManager.AcceptOrder(orderId);
+                        while (true)
+                        {
+                            var consumer = builder.Consume(cancelToken.Token);
+                            Console.WriteLine();
+                            Console.WriteLine($"Message: {consumer.Message.Value} received from {consumer.TopicPartitionOffset}");
+                            Console.WriteLine();
+                            Guid orderId = (Guid)JsonSerializer.Deserialize(consumer.Message.Value, typeof(Guid));
+                            OrderManager.AcceptOrder(orderId);
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine("Failure occurred");
+                        Console.WriteLine(e.GetType());
+                        Console.WriteLine(e.Message);
+                        builder.Close();
                     }
                 }
-                catch (Exception e)
-                {
-                    Console.WriteLine("Failure occurred");
-                    Console.WriteLine(e.GetType());
-                    Console.WriteLine(e.Message);
-                    builder.Close();
-                }
+                await Task.CompletedTask;
             }
-            return Task.CompletedTask;
-        }
-
-        public Task StopAsync(CancellationToken cancellationToken)
-        {
-            return Task.CompletedTask;
         }
     }
 }

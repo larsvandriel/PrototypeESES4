@@ -4,54 +4,69 @@ using System.Text.Json;
 
 namespace InventoryManagementSystem.API.Kafka
 {
-    public class KafkaConsumerCreateProductEvent: IHostedService
+    public class KafkaConsumerCreateProductEvent: BackgroundService
     {
         private readonly string topic = "CreateProductEvent";
+        private readonly IServiceProvider _serviceProvider;
+        private readonly string _kafkaBootstrapServers;
+
         private IInventoryManager InventoryManager { get; set; }
 
-        public KafkaConsumerCreateProductEvent(IInventoryManager inventoryManager)
+        public KafkaConsumerCreateProductEvent(IServiceProvider serviceProvider, string kafkaBootstrapServers)
         {
-            InventoryManager = inventoryManager;
+            _serviceProvider = serviceProvider;
+            _kafkaBootstrapServers = kafkaBootstrapServers;
         }
 
-        public Task StartAsync(CancellationToken cancellationToken)
+        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            var conf = new ConsumerConfig
+            await DoWorkAsync(stoppingToken);
+        }
+
+        private async Task DoWorkAsync(CancellationToken stoppingToken)
+        {
+            Console.WriteLine("Create Product Event: Do some work!");
+
+            using (IServiceScope scope = _serviceProvider.CreateScope())
             {
-                GroupId = "st_consumer_group",
-                BootstrapServers = "kafka:9092",
-                AutoOffsetReset = AutoOffsetReset.Earliest
-            };
-            using (var builder = new ConsumerBuilder<Ignore, string>(conf).Build())
-            {
-                builder.Subscribe(topic);
-                var cancelToken = new CancellationTokenSource();
-                try
+                InventoryManager = scope.ServiceProvider.GetRequiredService<IInventoryManager>();
+
+                var conf = new ConsumerConfig
                 {
-                    while (true)
+                    GroupId = "st_consumer_group",
+                    BootstrapServers = _kafkaBootstrapServers,
+                    AutoOffsetReset = AutoOffsetReset.Earliest
+                };
+                using (var builder = new ConsumerBuilder<Ignore, string>(conf).Build())
+                {
+                    builder.Subscribe(topic);
+                    var cancelToken = new CancellationTokenSource();
+                    try
                     {
-                        var consumer = builder.Consume(cancelToken.Token);
-                        Console.WriteLine();
-                        Console.WriteLine($"Message: {consumer.Message.Value} received from {consumer.TopicPartitionOffset}");
-                        Console.WriteLine();
-                        Product product = (Product)JsonSerializer.Deserialize(consumer.Message.Value, typeof(Product));
-                        InventoryManager.AddProduct(product);
+                        while (true)
+                        {
+                            var consumer = builder.Consume(cancelToken.Token);
+                            Console.WriteLine();
+                            Console.WriteLine($"Message: {consumer.Message.Value} received from {consumer.TopicPartitionOffset}");
+                            Console.WriteLine();
+                            Product product = (Product)JsonSerializer.Deserialize(consumer.Message.Value, typeof(Product));
+                            if(InventoryManager == null)
+                            {
+                                Console.WriteLine("Inventory Manager was not instanciated!");
+                            }
+                            InventoryManager.AddProduct(product);
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine("Failure occurred");
+                        Console.WriteLine(e.GetType());
+                        Console.WriteLine(e.Message);
+                        builder.Close();
                     }
                 }
-                catch (Exception e)
-                {
-                    Console.WriteLine("Failure occurred");
-                    Console.WriteLine(e.GetType());
-                    Console.WriteLine(e.Message);
-                    builder.Close();
-                }
+                await Task.CompletedTask;
             }
-            return Task.CompletedTask;
-        }
-
-        public Task StopAsync(CancellationToken cancellationToken)
-        {
-            return Task.CompletedTask;
         }
     }
 }

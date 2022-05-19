@@ -7,9 +7,9 @@ namespace OrderManagementSystem.KafkaAccessLayer
     {
         public KafkaProducer DecreaseStockProducer { get; set; }
 
-        public KafkaAccessLayer()
+        public KafkaAccessLayer(string kafkaBootstrapServers)
         {
-            DecreaseStockProducer = new KafkaProducer("DecreaseStockEvent");
+            DecreaseStockProducer = new KafkaProducer("DecreaseStockEvent", kafkaBootstrapServers);
         }
 
         public void SendDecreaseStockEvent(Guid orderId, Guid productId, int amount)
